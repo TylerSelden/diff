@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Header from "./components/header";
+import Footer from "./components/footer";
 
 const Menu = ({ players, setPlayers }) => {
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (evt) => {
     if (evt.key !== "Enter") return;
@@ -33,7 +34,6 @@ const Menu = ({ players, setPlayers }) => {
             placeholder="Enter Player Name"
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Enter Player Name"
             value={inputValue}
           ></input>
           <div className="col-auto ms-sm-1 d-flex justify-content-center">
@@ -91,9 +91,7 @@ const Menu = ({ players, setPlayers }) => {
           </button>
         </div>
       </div>
-      <footer className="text-center mt-5">
-        <p className="text-light">&copy; {new Date().getFullYear()} Different Tag, All Rights Reserved.</p>
-      </footer>
+      <Footer />
     </>
   );
 }
