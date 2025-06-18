@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,7 +7,14 @@ import "./style.scss";
 import Menu from "./menu";
 
 export default function App() {
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState(() => {
+    const savedPlayers = localStorage.getItem("diffPlayers");
+    return savedPlayers ? JSON.parse(savedPlayers) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("diffPlayers", JSON.stringify(players));
+  }, [players]);
 
   return (
     <BrowserRouter basename="/diff">
