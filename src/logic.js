@@ -311,6 +311,8 @@ C. POST-PROCESSING
 
 */
 
+// TODO: Maybe add unique = [0, Infinity] so a certain number of roles can exist at a time?
+
 
 function dealRoles(players) {
   const playerCount = players.length;
