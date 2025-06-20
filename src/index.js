@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
 
 import Menu from "./menu";
+import Game from "./game";
 
 export default function App() {
   const [players, setPlayers] = useState(() => {
@@ -20,7 +21,7 @@ export default function App() {
     <BrowserRouter basename="/diff">
       <Routes>
         <Route path="/" element={<Menu players={players} setPlayers={setPlayers} />} />
-        <Route path="/game" element={<h1>Game Page</h1>} />
+        <Route path="/game" element={<Game players={players} />} />
       </Routes>
     </BrowserRouter>
   );

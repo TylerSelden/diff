@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
 import Header from "./components/header";
+import Rules from "./components/rules";
 import Footer from "./components/footer";
 
 const Menu = ({ players, setPlayers }) => {
+  const nav = useNavigate();
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (evt) => {
@@ -25,7 +28,7 @@ const Menu = ({ players, setPlayers }) => {
     <>
       <Header />
       <div className="container mt-5 p-4 bg-light text-dark rounded">
-        <h3 className="mb-4">Step 1: Enter Player Names</h3>
+        <h3 className="mb-4">Enter Player Names</h3>
 
         <div className="row g-2 flex-column flex-sm-row align-items-stretch mb-5">
           <input
@@ -58,11 +61,13 @@ const Menu = ({ players, setPlayers }) => {
                 {players.map((player, index) => (
                   <li key={index} className="list-group-item py-3">
                     <div className="d-flex justify-content-between align-items-center">
-                    <span className="me-2 overflow-scroll">{player}</span>
-                    <button
-                      className="btn btn-primary btn-sm float-end rounded-square d-flex justify-content-center align-items-center"
-                      onClick={() => setPlayers(players.filter((p) => p !== player))}
-                    >&#8211;</button>
+                      <span className="me-2 overflow-scroll">{player}</span>
+                      <button
+                        className="btn btn-primary btn-sm float-end rounded-square d-flex justify-content-center align-items-center"
+                        onClick={() => setPlayers(players.filter((p) => p !== player))}
+                      >
+                        &#8211;
+                      </button>
                     </div>
                   </li>
                 ))}
@@ -86,10 +91,12 @@ const Menu = ({ players, setPlayers }) => {
           <button
             className="btn btn-success text-white"
             disabled={players.length < 3}
+            onClick={() => nav("/game")}
           >
             Start Game
           </button>
         </div>
+        <Rules />
       </div>
       <Footer />
     </>
