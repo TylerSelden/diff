@@ -12,6 +12,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Townsperson: {
@@ -27,6 +28,7 @@ const allRoles = {
     unique: false,
     dependencies: [],
     isDependency: false,
+    bounces: 3,
     enabled: true
   },
   Angel: {
@@ -42,6 +44,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Doctor: {
@@ -57,6 +60,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Powderman: {
@@ -72,6 +76,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Sharpshooter: {
@@ -87,6 +92,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Jester: {
@@ -102,6 +108,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   "Bounty Hunter": {
@@ -117,6 +124,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Spy: {
@@ -132,6 +140,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   President: {
@@ -147,6 +156,7 @@ const allRoles = {
     unique: true,
     dependencies: ["Guard"],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Guard: {
@@ -162,6 +172,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: true,
+    bounces: 0,
     enabled: true
   },
   Renegade: {
@@ -177,6 +188,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Mute: {
@@ -192,6 +204,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Noisemaker: {
@@ -207,6 +220,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Vampire: {
@@ -222,6 +236,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Knight: {
@@ -237,6 +252,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   },
   Knave: {
@@ -252,6 +268,7 @@ const allRoles = {
     unique: true,
     dependencies: [],
     isDependency: false,
+    bounces: 0,
     enabled: true
   }
 };
@@ -267,7 +284,6 @@ function getAllRoles() {
 function getRandomElem(arr, keep) {
   const index = rand(0, arr.length);
   const elem = arr[index];
-  if (keep) console.log(elem, keep(elem));
   if (!keep || !keep(elem)) arr.splice(index, 1);
   return elem;
 }
@@ -308,15 +324,16 @@ C. POST-PROCESSING
     7.1. Find a RANDOM non-required, non-dependency and non-dependencies<=0 role that is owned by a player.
     7.2: Replace this role with the dependency.
   8. Repeat step 7 until checks pass or 7 is repeated 25 times (if so, restart from A).
+  9. Replace role names with full objects.
 
 */
 
 // TODO: Maybe add unique = [0, Infinity] so a certain number of roles can exist at a time?
 
 
-function dealRoles(players) {
+function dealRoles(playersArr) {
+  let players = [...playersArr];
   const playerCount = players.length;
-  //  TODO: if playerCount < 3, return to previous page
 
   // A. PREPROCESSING
   const rolesArr = getAllRoles();
@@ -331,10 +348,21 @@ function dealRoles(players) {
     playerRoles[player] = role;
   }
 
+  // bounces = { Outlaw: 0, Townsperson: 0, ... }
+  let bounces = Object.fromEntries(
+    validRoles.map(role => [role, allRoles[role].bounces])
+  );
+  console.log(bounces);
   while (players.length > 0) {
+    const role = getRandomElem(validRoles, role => !allRoles[role].unique || bounces[role] > 0);
+    console.log(`Dealing ${role}, ${bounces[role]}/${allRoles[role].bounces} bounces left`);
+    if (bounces[role] > 0) {
+      bounces[role]--;
+      continue;
+    } else {
+      bounces[role] = allRoles[role].bounces;
+    }
     const player = getRandomElem(players);
-    // TODO: bouncing
-    const role = getRandomElem(validRoles, role => !allRoles[role].unique);
     playerRoles[player] = role;
   }
 
@@ -363,14 +391,12 @@ function dealRoles(players) {
       }
     }
   }
-  if (!checksPassed) {
-// TODO:    alert("Something went wrong with dependency resolution, please try again.");
-    throw new Error("Dependency resolution failed after 25 iterations.");
-  }
+  if (!checksPassed) return alert("Something went wrong with dependency resolution, please try again.");
 
+  console.log(playerRoles);
+
+  for (const player in playerRoles) playerRoles[player] = allRoles[playerRoles[player]];
   return playerRoles;
 }
-
-console.log(dealRoles(["Alice", "Bob", "Charlie", "David", "Eve"]));
-
-module.exports = { allRoles };
+dealRoles(["Alice", "Bob", "Charlie", "David", "Eve"]);
+module.exports = { allRoles, dealRoles };
