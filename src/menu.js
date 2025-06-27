@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
 import Header from "./components/header";
-import Rules from "./components/rules";
+import Dropdowns from "./components/dropdowns";
 import Footer from "./components/footer";
 
 const Menu = ({ players, setPlayers }) => {
@@ -96,7 +96,7 @@ const Menu = ({ players, setPlayers }) => {
             Start Game
           </button>
         </div>
-        <Rules />
+        <Dropdowns />
       </div>
       <Footer />
     </>

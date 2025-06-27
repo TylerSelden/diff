@@ -2,7 +2,7 @@ const allRoles = {
   Outlaw: {
     name: "Outlaw",
     team: "Outlaw",
-    objective: "Kill all other players",
+    objective: "Be the last player alive",
     kills: "Infinite",
     revives: 0,
     notes: "This is the only role that is revealed upon death, since the game ends as soon as they die.",
@@ -17,13 +17,13 @@ const allRoles = {
   },
   Townsperson: {
     name: "Townsperson",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 0,
-    notes: "If all Innocents are dead by the end of the game, they all lose.",
+    notes: "If all Townspeople are dead by the end of the game, they all lose.",
     required: false,
-    minPlayers: 0, // TODO: Townsperson only appears with minimum of n players?
+    minPlayers: 0,
     maxPlayers: Infinity,
     unique: false,
     dependencies: [],
@@ -33,7 +33,7 @@ const allRoles = {
   },
   Angel: {
     name: "Angel",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 1,
@@ -49,7 +49,7 @@ const allRoles = {
   },
   Doctor: {
     name: "Doctor",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: 0,
     revives: "1 per other player",
@@ -65,11 +65,11 @@ const allRoles = {
   },
   Powderman: {
     name: "Powderman",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 0,
-    notes: "If the Powderman is killed, their attacker will also be killed. However, this only happens the first time they are killed. If they are the last Innocent alive and the Outlaw kills them, the game ends and both the Outlaw and the Innocents lose.",
+    notes: "If the Powderman is killed, their attacker will also be killed. However, this only happens the first time they are killed. If they are the last Innocent alive and the Outlaw kills them, the game ends and both the Outlaw and the Townspeople lose.",
     required: false,
     minPlayers: 0,
     maxPlayers: Infinity,
@@ -81,7 +81,7 @@ const allRoles = {
   },
   Sharpshooter: {
     name: "Sharpshooter",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: 1,
     revives: 0,
@@ -114,7 +114,7 @@ const allRoles = {
   "Bounty Hunter": {
     name: "Bounty Hunter",
     team: "Bounty Hunter",
-    objective: "Ensure their target dies and survive to the end of the game",
+    objective: "Ensure that, by the end of the game, your target is dead and you are alive",
     kills: "1*",
     revives: 0,
     notes: "*The Bounty Hunter can only kill one player, but may kill them as many times as they want. Their chosen player does not need to be their target.",
@@ -146,7 +146,7 @@ const allRoles = {
   President: {
     name: "President",
     team: "President",
-    objective: "Be alive by the end of the game",
+    objective: "Ensure the President is alive by the end of the game",
     kills: 0,
     revives: 0,
     notes: "The President must reveal their role at the beginning of the game. The President will lose if they are killed. The President cannot exist without the Guard.",
@@ -162,7 +162,7 @@ const allRoles = {
   Guard: {
     name: "Guard",
     team: "President",
-    objective: "Ensure the President wins",
+    objective: "Ensure the President is alive by the end of the game",
     kills: "Infinite",
     revives: 0,
     notes: "The Guard may not reveal their role until the President does. Even if the Guard dies, as long as the President wins, the Guard does as well. The Guard cannot exist without the President.",
@@ -193,7 +193,7 @@ const allRoles = {
   },
   Mute: {
     name: "Mute",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 0,
@@ -209,7 +209,7 @@ const allRoles = {
   },
   Noisemaker: {
     name: "Noisemaker",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 0,
@@ -225,7 +225,7 @@ const allRoles = {
   },
   Vampire: {
     name: "Vampire",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: "1*",
@@ -241,7 +241,7 @@ const allRoles = {
   },
   Knight: {
     name: "Knight",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 0,
@@ -257,7 +257,7 @@ const allRoles = {
   },
   Knave: {
     name: "Knave",
-    team: "Innocents",
+    team: "Townspeople",
     objective: "Ensure the Outlaw doesn't win",
     kills: "Infinite",
     revives: 0,
@@ -273,6 +273,8 @@ const allRoles = {
   }
 };
 
+// TODO: Non-hardcoded team object, for rules page
+
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -286,6 +288,22 @@ function getRandomElem(arr, keep) {
   const elem = arr[index];
   if (!keep || !keep(elem)) arr.splice(index, 1);
   return elem;
+}
+
+function getTeams() {
+  //return object of teamName: { objective: string, roles: [roleName, ...] }
+  const teams = {};
+  for (const roleKey in allRoles) {
+    const role = allRoles[roleKey];
+    if (!teams[role.team]) {
+      teams[role.team] = {
+        objective: role.objective,
+        roles: []
+      };
+    }
+    teams[role.team].roles.push(roleKey);
+  }
+  return teams;
 }
 
 function getValidRoles(roles, playerCount) {
@@ -399,4 +417,4 @@ function dealRoles(playersArr) {
   return playerRoles;
 }
 dealRoles(["Alice", "Bob", "Charlie", "David", "Eve"]);
-module.exports = { allRoles, dealRoles };
+module.exports = { allRoles, getTeams, dealRoles };
