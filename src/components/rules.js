@@ -45,7 +45,7 @@ const Rules = () => {
             regenerate everybody's role, so make sure it's okay with other players first!
           </Paragraph>
           <Header>Notes</Header>
-          <Paragraph>
+          <div className="px-3 mb-5">
             <ul className="ms-0 ps-3">
               <li>As soon as the Outlaw is killed, they must announce that they were the Outlaw, so the game can end.</li>
               <li>Each game must have at least 3 people. One Outlaw is always guaranteed.</li>
@@ -65,7 +65,7 @@ const Rules = () => {
                 Hunter kills their target, but the target gets revived and are alive by the end of the game, the Bounty Hunter loses.</li>
               <li>Nobody (especially the Guard) may announce who they are until the game officially starts.</li>
             </ul>
-          </Paragraph>
+          </div>
         </div>
       )}
     </div>

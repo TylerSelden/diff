@@ -4,12 +4,14 @@ import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 
 import Rules from "./rules";
 import Teams from "./teams";
+import Roles from "./roles";
 
-const Dropdowns = () => {
+const Dropdowns = ({ players }) => {
   return (
-    <div className="container mt-4">
+    <div className="mt-4">
       <Rules />
       <Teams />
+      <Roles players={ players }/>
     </div>
   );
 }

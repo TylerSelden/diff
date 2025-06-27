@@ -17,7 +17,7 @@ const SubHeader = (props) => {
 }
 const Paragraph = (props) => {
   return (
-    <p className="ps-3 mb-5">
+    <p className="px-3 mb-5">
       {props.children}
     </p>
   )

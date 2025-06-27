@@ -1,0 +1,3 @@
+- [ ] Potentially change `unique` for each role from a `boolean` to a `string`, as a maximum number of unique players that can have that role
+- [ ] Save the enabled/disabled roles... somehow...
+- [ ] Finish the `/game` UI and make mulligan logic

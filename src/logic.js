@@ -7,11 +7,13 @@ const allRoles = {
     revives: 0,
     notes: "This is the only role that is revealed upon death, since the game ends as soon as they die.",
     required: true,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -23,11 +25,13 @@ const allRoles = {
     revives: 0,
     notes: "If all Townspeople are dead by the end of the game, they all lose.",
     required: false,
+    isFallback: true,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: false,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 3,
     enabled: true
   },
@@ -39,11 +43,13 @@ const allRoles = {
     revives: 1,
     notes: "As soon as the Angel is killed, if they still haven't used their revive, they must shout 'Angel' or die. This effectively burns their one revive, using it on themselves instantly.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -55,11 +61,13 @@ const allRoles = {
     revives: "1 per other player",
     notes: "The Doctor, unlike the Angel, cannot use a revive on themselves. In addition, they cannot kill other players. Doctors also cannot revive the same player more than once in a single game.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -71,11 +79,13 @@ const allRoles = {
     revives: 0,
     notes: "If the Powderman is killed, their attacker will also be killed. However, this only happens the first time they are killed. If they are the last Innocent alive and the Outlaw kills them, the game ends and both the Outlaw and the Townspeople lose.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -87,11 +97,13 @@ const allRoles = {
     revives: 0,
     notes: "The Sharpshooter can kill anybody within earshot by shouting to them. This counts as using the Sharpshooter's one kill.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -103,11 +115,13 @@ const allRoles = {
     revives: 0,
     notes: "As long as the Jester is not killed by a member of the Outlaw team, they win.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -119,11 +133,13 @@ const allRoles = {
     revives: 0,
     notes: "*The Bounty Hunter can only kill one player, but may kill them as many times as they want. Their chosen player does not need to be their target.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -135,27 +151,31 @@ const allRoles = {
     revives: 0,
     notes: "Before roles are revealed at the end of the game, the Spy, if present, must come forth and make their guesses. If they guess all the roles correctly, they win.",
     required: false,
+    isFallback: false,
     minPlayers: 5,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
   President: {
     name: "President",
     team: "President",
-    objective: "Ensure the President is alive by the end of the game",
+    objective: "Be alive by the end of the game",
     kills: 0,
     revives: 0,
     notes: "The President must reveal their role at the beginning of the game. The President will lose if they are killed. The President cannot exist without the Guard.",
     required: false,
+    isFallback: false,
     minPlayers: 5,
     maxPlayers: Infinity,
     unique: true,
     dependencies: ["Guard"],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -167,11 +187,13 @@ const allRoles = {
     revives: 0,
     notes: "The Guard may not reveal their role until the President does. Even if the Guard dies, as long as the President wins, the Guard does as well. The Guard cannot exist without the President.",
     required: false,
+    isFallback: false,
     minPlayers: 5,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: true,
+    dependencyOf: "President",
     bounces: 0,
     enabled: true
   },
@@ -183,11 +205,13 @@ const allRoles = {
     revives: 0,
     notes: "The Renegade must kill the Outlaw last, or else the game ends and they lose.",
     required: false,
+    isFallback: false,
     minPlayers: 5,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -199,11 +223,13 @@ const allRoles = {
     revives: 0,
     notes: "The Mute may not speak, gesture, or otherwise communicate with other players for the duration of the game.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -215,11 +241,13 @@ const allRoles = {
     revives: 0,
     notes: "The Noisemaker may create noise by moving their body around (but not using vocals) when dead. This may not be used for communication of any sort, other than to draw attention to themselves.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -231,11 +259,13 @@ const allRoles = {
     revives: "1*",
     notes: "The Vampire may, at any time, touch a dead person's neck to effectively steal their revive. This gives the Vampire one revive that can only be used on themself (similar to the Angel). However, this makes the dead person un-revivable, and if somebody tries to revive them, they must remain dead. This can only be done once per game.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -247,11 +277,13 @@ const allRoles = {
     revives: 0,
     notes: "The Knight must always only tell the truth. However, if they ever choose to lie (which is not against the rules), they must die immediately.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   },
@@ -263,17 +295,62 @@ const allRoles = {
     revives: 0,
     notes: "The Knave must always lie. However, if they ever choose to tell the truth (which is not against the rules), they must die immediately.",
     required: false,
+    isFallback: false,
     minPlayers: 0,
     maxPlayers: Infinity,
     unique: true,
     dependencies: [],
     isDependency: false,
+    dependencyOf: "",
     bounces: 0,
     enabled: true
   }
 };
 
-// TODO: Non-hardcoded team object, for rules page
+const teams = {
+  Outlaw: {
+    objective: "Be the last player alive",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Outlaw")
+  },
+  Townspeople: {
+    objective: "Ensure the Outlaw doesn't win",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Townspeople")
+  },
+  Jester: {
+    objective: "Get killed by another player",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Jester")
+  },
+  "Bounty Hunter": {
+    objective: "Ensure that, by the end of the game, your target is dead and you are alive",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Bounty Hunter")
+  },
+  Spy: {
+    objective: "Determine the role of every player",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Spy")
+  },
+  President: {
+    objective: "Ensure the President is alive by the end of the game",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "President")
+  },
+  Renegade: {
+    objective: "Kill everybody",
+    roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Renegade")
+  }
+}
+
+let t = {};
+// object of teams, where each value is { objective: string, roles: [roleName, ...] }
+for (const roleKey in allRoles) {
+  const role = allRoles[roleKey];
+  if (!t[role.team]) {
+    t[role.team] = {
+      objective: role.objective,
+      roles: []
+    };
+  }
+  t[role.team].roles.push(roleKey);
+}
+console.log(t)
 
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -288,22 +365,6 @@ function getRandomElem(arr, keep) {
   const elem = arr[index];
   if (!keep || !keep(elem)) arr.splice(index, 1);
   return elem;
-}
-
-function getTeams() {
-  //return object of teamName: { objective: string, roles: [roleName, ...] }
-  const teams = {};
-  for (const roleKey in allRoles) {
-    const role = allRoles[roleKey];
-    if (!teams[role.team]) {
-      teams[role.team] = {
-        objective: role.objective,
-        roles: []
-      };
-    }
-    teams[role.team].roles.push(roleKey);
-  }
-  return teams;
 }
 
 function getValidRoles(roles, playerCount) {
@@ -346,9 +407,6 @@ C. POST-PROCESSING
 
 */
 
-// TODO: Maybe add unique = [0, Infinity] so a certain number of roles can exist at a time?
-
-
 function dealRoles(playersArr) {
   let players = [...playersArr];
   const playerCount = players.length;
@@ -370,10 +428,8 @@ function dealRoles(playersArr) {
   let bounces = Object.fromEntries(
     validRoles.map(role => [role, allRoles[role].bounces])
   );
-  console.log(bounces);
   while (players.length > 0) {
     const role = getRandomElem(validRoles, role => !allRoles[role].unique || bounces[role] > 0);
-    console.log(`Dealing ${role}, ${bounces[role]}/${allRoles[role].bounces} bounces left`);
     if (bounces[role] > 0) {
       bounces[role]--;
       continue;
@@ -411,10 +467,8 @@ function dealRoles(playersArr) {
   }
   if (!checksPassed) return alert("Something went wrong with dependency resolution, please try again.");
 
-  console.log(playerRoles);
-
   for (const player in playerRoles) playerRoles[player] = allRoles[playerRoles[player]];
   return playerRoles;
 }
-dealRoles(["Alice", "Bob", "Charlie", "David", "Eve"]);
-module.exports = { allRoles, getTeams, dealRoles };
+
+module.exports = { allRoles, teams, dealRoles };

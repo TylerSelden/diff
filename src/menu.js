@@ -96,7 +96,7 @@ const Menu = ({ players, setPlayers }) => {
             Start Game
           </button>
         </div>
-        <Dropdowns />
+        <Dropdowns players={ players } />
       </div>
       <Footer />
     </>
