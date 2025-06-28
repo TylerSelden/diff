@@ -123,9 +123,9 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
             </div>
           ))}
 
-          <div className="d-flex justify-content-between align-items-center mt-4 mb-2">
+          <div className="d-flex flex-wrap gap-3 justify-content-between align-items-center mt-4 mb-2">
             <p className="text-primary m-0">* indicates a required role</p>
-            <div>
+            <div className="d-flex justify-content-end">
               <button
                 className="btn btn-secondary text-white me-2"
                 onClick={() => setRolesDisabled(Object.keys(allRoles).filter(role => !switchIsDisabled(role)))}
@@ -138,7 +138,6 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
               >
                 Enable All
               </button>
-              
             </div>
           </div>
         </div>

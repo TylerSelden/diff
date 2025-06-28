@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { dealRoles } from "./logic.js";
 
+import { AlertModal, RoleModal } from "./components/modals";
 import Header from "./components/header";
 import Dropdowns from "./components/dropdowns";
 import Footer from "./components/footer";
@@ -17,16 +18,21 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
     return Object.fromEntries(players.map(player => [player, {}]))
   });
 
+  const resetRoles = () => {
+    setAlert({ title: "", message: "", onClose: () => {} });
+        const assignedRoles = dealRoles(players, rolesDisabled);
+        setRoles(assignedRoles);
+        setButtonsDisabled([]);
+
+  };
+
   const playAgain = () => {
     setAlert({
       title: "Game Reset",
       message: "The game has been restarted. All roles have been reassigned.",
       onClose: () => {
-        setAlert({ title: "", message: "", onClose: () => {} });
-        const assignedRoles = dealRoles(players, rolesDisabled);
-        setRoles(assignedRoles);
-        setButtonsDisabled([]);
-      }
+        resetRoles();
+              }
     })
   }
 
@@ -48,7 +54,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
         <div className="row">
           <div className="col mb-4">
             <div className="alert alert-warning mb-3" role="alert">
-              Player roles are only viewable once. Make sure you remember yours and click the "Hide" button before passing the device to the next player.
+              Player roles are only viewable once. Make sure you remember yours and click the "Close" button before passing the device to the next player.
             </div>
 
             <ul className="list-group">
@@ -95,110 +101,12 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
         onClose={() => setVisiblePlayer("")}
       />
       <AlertModal
-        title={alert.title}
-        message={alert.message}
+        title={ alert.title }
+        message={ alert.message }
         onClose={ alert.onClose }
       />
       <Footer />
     </>
-  );
-}
-
-const AlertModal = ({ title, message, onClose }) => {
-  const [show, setShow] = useState(false)
-  const [animate, setAnimate] = useState(false);
-  const animationDelay = 101;
-
-  useEffect(() => {
-    if (title && message) {
-      setShow(true);
-      setTimeout(() => setAnimate(true), animationDelay);
-    } else {
-      setShow(false);
-    }
-  }, [title, message]);
-
-  const closeModal = () => {
-    setAnimate(false);
-    setTimeout(() => onClose(), animationDelay);
-  }
-
-  return (
-    <div
-      className={`modal fade ${show ? "d-block" : ""} ${animate ? "show" : ""}`}
-      tabIndex="-1"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
-      onClick={ closeModal }
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{title}</h5>
-          </div>
-          <div className="modal-body">
-            <p>{message}</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              className="btn btn-info"
-              onClick={ closeModal }
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const RoleModal = ({ player, role, onClose }) => {
-  const [show, setShow] = useState(false);
-  const [animate, setAnimate] = useState(false);
-  const animationDelay = 101;
-
-  useEffect(() => {
-    if (player) {
-      setShow(true);
-      setTimeout(() => setAnimate(true), animationDelay);
-    } else {
-      setShow(false);
-    }
-  }, [player, role]);
-
-  const closeModal = (evt) => {
-    if (evt.target !== evt.currentTarget) return;
-    setAnimate(false);
-    setTimeout(() => onClose(), animationDelay);
-  }
-
-  return (
-    <div
-      className={`modal fade ${show ? "d-block" : ""} ${animate ? "show" : ""}`}
-      tabIndex="-1"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
-      onClick={ closeModal }
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Your Role</h5>
-          </div>
-          <div className="modal-body">
-            <p><strong>{player}</strong>, your role is:</p>
-            <p>{role?.name || "Unknown Role"}</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              className="btn btn-primary"
-              onClick={ closeModal }
-            >
-              Hide Role
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
 
