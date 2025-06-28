@@ -6,7 +6,7 @@ import Header from "./components/header";
 import Dropdowns from "./components/dropdowns";
 import Footer from "./components/footer";
 
-const Menu = ({ players, setPlayers }) => {
+const Menu = ({ players, setPlayers, rolesDisabled, setRolesDisabled }) => {
   const nav = useNavigate();
   const [inputValue, setInputValue] = useState("");
 
@@ -96,7 +96,7 @@ const Menu = ({ players, setPlayers }) => {
             Start Game
           </button>
         </div>
-        <Dropdowns players={ players } />
+        <Dropdowns players={ players } rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />
       </div>
       <Footer />
     </>

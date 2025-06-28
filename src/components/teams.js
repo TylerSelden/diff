@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 
-import { SubHeader } from "./dropdown-components";
 import { teams } from "../logic.js";
 
 const Teams = () => {

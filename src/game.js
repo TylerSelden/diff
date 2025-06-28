@@ -5,24 +5,29 @@ import { useNavigate } from "react-router-dom";
 import { dealRoles } from "./logic.js";
 
 import Header from "./components/header";
+import Dropdowns from "./components/dropdowns";
 import Footer from "./components/footer";
 
-const Game = ({ players }) => {
+const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
   const nav = useNavigate();
 
   const [roles, setRoles] = useState(() => {
     return Object.fromEntries(players.map(player => [player, {}]))
   });
 
+  const playAgain = () => {
+    const assignedRoles = dealRoles(players, rolesDisabled);
+    setRoles(assignedRoles);
+  }
+
   useEffect(() => {
     if (players.length < 3) return nav("/");
   }, [players, nav]);
 
   useEffect(() => {
-    const assignedRoles = dealRoles(players);
-    console.log(assignedRoles);
+    const assignedRoles = dealRoles(players, rolesDisabled);
     setRoles(assignedRoles);
-  }, [players]);
+  }, [players, rolesDisabled]);
 
   return (
     <>
@@ -61,10 +66,12 @@ const Game = ({ players }) => {
           </button>
           <button
             className="btn btn-info text-white"
+            onClick={ playAgain }
           >
             Play Again
           </button>
         </div>
+        <Dropdowns players={ players } rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />
       </div>
       <Footer />
     </>

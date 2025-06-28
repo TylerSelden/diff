@@ -12,16 +12,23 @@ export default function App() {
     const savedPlayers = localStorage.getItem("diffPlayers");
     return savedPlayers ? JSON.parse(savedPlayers) : [];
   });
+  const [rolesDisabled, setRolesDisabled] = useState(() => {
+    const savedRolesDisabled = localStorage.getItem("diffRolesDisabled");
+    return savedRolesDisabled ? JSON.parse(savedRolesDisabled) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem("diffPlayers", JSON.stringify(players));
   }, [players]);
+  useEffect(() => {
+    localStorage.setItem("diffRolesDisabled", JSON.stringify(rolesDisabled));
+  }, [rolesDisabled]);
 
   return (
     <BrowserRouter basename="/diff">
       <Routes>
-        <Route path="/" element={<Menu players={players} setPlayers={setPlayers} />} />
-        <Route path="/game" element={<Game players={players} />} />
+        <Route path="/" element={<Menu players={players} setPlayers={setPlayers} rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />} />
+        <Route path="/game" element={<Game players={players} rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 
-import { allRoles } from "../logic.js";
+import { allRoles, roleIsEnabled } from "../logic.js";
 
 const RoleInfo = ({ roleData }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -57,11 +57,9 @@ const RoleInfo = ({ roleData }) => {
   )
 }
 
-const Roles = ({ players }) => {
+const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [visibleRole, setVisibleRole] = useState("");
-  const [rolesDisabled, setRolesDisabled] = useState([]);
-
 
   const switchIsDisabled = (role) => {
     const roleData = allRoles[role];
@@ -73,15 +71,6 @@ const Roles = ({ players }) => {
 
     return false;
   }
-
-  const switchIsOn = (role) => {
-    const roleData = allRoles[role];
-    if (roleData.isDependency && !switchIsOn(roleData.dependencyOf)) return false;
-    if (players.length < roleData.minPlayers || players.length > roleData.maxPlayers) return false;
-    if (rolesDisabled.includes(role)) return false;
-    return true;
-  }
-
 
   return (
     <div className="col mt-2 mb-1 rounded bg-white">
@@ -108,11 +97,11 @@ const Roles = ({ players }) => {
                   {roleData.name}
                 </span>
                 <div className="d-flex align-items-center">
-                  <div className="form-check form-switch">
+                  <div className="form-check form-switch midswitch d-flex align-items-center">
                     <input
-                      className="form-check-input"
+                      className="form-check-input mt-0"
                       type="checkbox"
-                      checked={switchIsOn(role)}
+                      checked={roleIsEnabled(rolesDisabled, players.length, role)}
                       disabled={switchIsDisabled(role)}
                       onClick={(evt) => evt.stopPropagation()}
                       onChange={(evt) => {
@@ -134,7 +123,24 @@ const Roles = ({ players }) => {
             </div>
           ))}
 
-          <p className="text-primary mt-4">* indicates a required role</p>
+          <div className="d-flex justify-content-between align-items-center mt-4 mb-2">
+            <p className="text-primary m-0">* indicates a required role</p>
+            <div>
+              <button
+                className="btn btn-secondary text-white me-2"
+                onClick={() => setRolesDisabled(Object.keys(allRoles).filter(role => !switchIsDisabled(role)))}
+              >
+                Disable All
+              </button>
+              <button
+                className="btn btn-info"
+                onClick={() => setRolesDisabled([])}
+              >
+                Enable All
+              </button>
+              
+            </div>
+          </div>
         </div>
       )}
     </div>

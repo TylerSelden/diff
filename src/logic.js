@@ -338,20 +338,6 @@ const teams = {
   }
 }
 
-let t = {};
-// object of teams, where each value is { objective: string, roles: [roleName, ...] }
-for (const roleKey in allRoles) {
-  const role = allRoles[roleKey];
-  if (!t[role.team]) {
-    t[role.team] = {
-      objective: role.objective,
-      roles: []
-    };
-  }
-  t[role.team].roles.push(roleKey);
-}
-console.log(t)
-
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -367,11 +353,11 @@ function getRandomElem(arr, keep) {
   return elem;
 }
 
-function getValidRoles(roles, playerCount) {
+function getValidRoles(roles, playerCount, rolesDisabled) {
   return roles.filter(key => {
     const role = allRoles[key];
     return (
-      role.enabled &&
+      roleIsEnabled(rolesDisabled, playerCount, role.name) &&
       !role.required &&
       !role.isDependency &&
       role.minPlayers <= playerCount &&
@@ -382,6 +368,14 @@ function getValidRoles(roles, playerCount) {
 
 function getRequiredRoles(roles) {
   return roles.filter(key => allRoles[key].required);
+}
+
+function roleIsEnabled(rolesDisabled, playerCount, role) {
+  const roleData = allRoles[role];
+  if (roleData.isDependency && !roleIsEnabled(rolesDisabled, playerCount, roleData.dependencyOf)) return false;
+  if (playerCount < roleData.minPlayers || playerCount > roleData.maxPlayers) return false;
+  if (rolesDisabled.includes(role)) return false;
+  return true;
 }
 
 /*
@@ -407,14 +401,14 @@ C. POST-PROCESSING
 
 */
 
-function dealRoles(playersArr) {
+function dealRoles(playersArr, rolesDisabled) {
   let players = [...playersArr];
   const playerCount = players.length;
 
   // A. PREPROCESSING
   const rolesArr = getAllRoles();
   let requiredRoles = getRequiredRoles(rolesArr);
-  let validRoles = getValidRoles(rolesArr, playerCount);
+  let validRoles = getValidRoles(rolesArr, playerCount, rolesDisabled);
   let playerRoles = {};
 
   // B. INITIAL DEALING
@@ -424,7 +418,6 @@ function dealRoles(playersArr) {
     playerRoles[player] = role;
   }
 
-  // bounces = { Outlaw: 0, Townsperson: 0, ... }
   let bounces = Object.fromEntries(
     validRoles.map(role => [role, allRoles[role].bounces])
   );
@@ -471,4 +464,4 @@ function dealRoles(playersArr) {
   return playerRoles;
 }
 
-module.exports = { allRoles, teams, dealRoles };
+module.exports = { allRoles, teams, roleIsEnabled, dealRoles };

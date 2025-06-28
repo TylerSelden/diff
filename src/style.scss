@@ -4,7 +4,7 @@ $theme-colors: (
   success:   #1c9520,
   danger:    #9a1f6a,
   warning:   #f0c03f,
-  info:      #3ca0dc,
+  info:      #2a7bb8,
   light:     #e0e0e0,
   dark:      #1a1a1a
 );
@@ -20,3 +20,20 @@ body {
 .rounded-square {
   aspect-ratio: 1 / 1;
 }
+
+.midswitch .form-check-input {
+  width: 2.25rem;
+  height: 1.25rem;
+  border-radius: 1.25rem;
+}
+
+.midswitch .form-check-input:checked {
+  background-color: #0d6efd;
+}
+
+.midswitch .form-check-input::before {
+  transform: scale(1.25);
+  top: 0.15rem;
+  left: 0.15rem;
+}
+
