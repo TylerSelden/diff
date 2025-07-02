@@ -30,9 +30,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
     setAlert({
       title: "Game Reset",
       message: "The game has been restarted. All roles have been reassigned.",
-      onClose: () => {
-        resetRoles();
-              }
+      onClose: resetRoles
     })
   }
 
@@ -96,8 +94,8 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
         <Dropdowns players={ players } rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />
       </div>
       <RoleModal
-        player={visiblePlayer}
-        role={roles[visiblePlayer]}
+        player={ visiblePlayer }
+        roleData={ roles[visiblePlayer] }
         onClose={() => setVisiblePlayer("")}
       />
       <AlertModal

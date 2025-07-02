@@ -4,52 +4,53 @@ import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 
 import { allRoles, roleIsEnabled } from "../logic.js";
 
-const RoleInfo = ({ roleData }) => {
+const RoleInfo = ({ roleData, detailsColor }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const playerCount = () => {
     if (roleData.minPlayers === 0 && roleData.maxPlayers === Infinity) return "N/A";
-    if (roleData.minPlayers === 0) return `≤${roleData.maxPlayers}`;
-    if (roleData.maxPlayers === Infinity) return `≥${roleData.minPlayers}`;
-    return `${roleData.minPlayers} - ${roleData.maxPlayers}`;
+    if (roleData.minPlayers === 0) return `≤${ roleData.maxPlayers }`;
+    if (roleData.maxPlayers === Infinity) return `≥${ roleData.minPlayers }`;
+    return `${ roleData.minPlayers} - ${roleData.maxPlayers }`;
   }
 
   return (
-    <div className="ps-4 pt-2 pb-3">
-      <p><strong>Team:</strong> {roleData.team}</p>
-      <p><strong>Objective:</strong> {roleData.objective}</p>
-      <p><strong>Kills:</strong> {roleData.kills}</p>
-      <p><strong>Revives:</strong> {roleData.revives}</p>
-      <p><strong>Notes:</strong> {roleData.notes}</p>
+    <div className="px-4 pt-2 pb-3">
+      <p><strong>Team:</strong> { roleData.team }</p>
+      <p><strong>Objective:</strong> { roleData.objective }</p>
+      <p><strong>Kills:</strong> { roleData.kills }</p>
+      <p><strong>Revives:</strong> { roleData.revives }</p>
+      <p><strong>Notes:</strong> { roleData.notes }</p>
 
-      <div className="col mb-1 mt-4 me-4 rounded bg-white">
+      <div className={`col mb-1 mt-4 rounded bg-${ detailsColor || "white" }`}>
         <button
           className="btn w-100 py-3 d-flex justify-content-between align-items-center"
           type="button"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
+          onClick={ () => setDropdownOpen(!dropdownOpen) }
         >
           <span className="fw-bold">More Details</span>
-          <span className="d-flex">{dropdownOpen ? (<FaCaretDown />) : (<FaCaretRight />)}</span>
+          <span className="d-flex">{ dropdownOpen ? (<FaCaretDown />) : (<FaCaretRight />) }</span>
         </button>
-        {dropdownOpen && (
+        { dropdownOpen && (
           <div className="p-4 pt-2 pb-2">
-            <p><strong>Required Players:</strong> {playerCount()}</p>
-            <p><strong>Is Fallback Role:</strong> {roleData.isFallback ? "Yes" : "No"}</p>
-            <p><strong>Unique:</strong> {roleData.unique ? "Yes" : "No"}</p>
-            <p><strong>Rarity:</strong> {roleData.bounces}</p>
-            {roleData.dependencies.length > 0 && (
+            <p><strong>Required Players:</strong> { playerCount() }</p>
+            <p><strong>Is Fallback Role:</strong> { roleData.isFallback ? "Yes" : "No" }</p>
+            <p><strong>Unique:</strong> { roleData.unique ? "Yes" : "No" }</p>
+            <p><strong>Rarity:</strong> { roleData.bounces }</p>
+            { roleData.dependencies.length > 0 && (
               <div>
                 <strong>Dependencies:</strong>
                 <ul>
                   {roleData.dependencies.map(dep => (
-                    <li key={dep}>{allRoles[dep].name}</li>
+                    <li key={ dep }>{ allRoles[dep].name }</li>
                   ))}
                 </ul>
               </div>
             )}
             {roleData.isDependency && (
-              <p><strong>Dependency of:</strong> {allRoles[roleData.dependencyOf].name}</p>
+              <p><strong>Dependency of:</strong> { allRoles[roleData.dependencyOf].name }</p>
             )}
+            <p><strong>Is Sandbox Role:</strong> { roleData.sandbox ? "Yes" : "No" }</p>
           </div>
         )}
       </div>
@@ -146,4 +147,4 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
   );
 }
 
-export default Roles;
+export { RoleInfo, Roles };

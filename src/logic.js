@@ -33,7 +33,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 3,
-    enabled: true
+    sandbox: false
   },
   Angel: {
     name: "Angel",
@@ -51,7 +51,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Doctor: {
     name: "Doctor",
@@ -69,7 +69,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Powderman: {
     name: "Powderman",
@@ -87,7 +87,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Sharpshooter: {
     name: "Sharpshooter",
@@ -105,7 +105,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Jester: {
     name: "Jester",
@@ -123,7 +123,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   "Bounty Hunter": {
     name: "Bounty Hunter",
@@ -141,7 +141,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Spy: {
     name: "Spy",
@@ -159,7 +159,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   President: {
     name: "President",
@@ -177,7 +177,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Guard: {
     name: "Guard",
@@ -195,7 +195,7 @@ const allRoles = {
     isDependency: true,
     dependencyOf: "President",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Renegade: {
     name: "Renegade",
@@ -213,7 +213,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Mute: {
     name: "Mute",
@@ -231,7 +231,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Noisemaker: {
     name: "Noisemaker",
@@ -249,7 +249,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Vampire: {
     name: "Vampire",
@@ -267,7 +267,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Knight: {
     name: "Knight",
@@ -285,7 +285,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Knave: {
     name: "Knave",
@@ -303,7 +303,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   }
 };
 

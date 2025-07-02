@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { RoleInfo } from "./roles";
+
 const AlertModal = ({ title, message, onClose }) => {
   const [show, setShow] = useState(false)
   const [animate, setAnimate] = useState(false);
@@ -34,9 +36,9 @@ const AlertModal = ({ title, message, onClose }) => {
             <h5 className="modal-title">{title}</h5>
           </div>
           <div className="modal-body">
-            <p>{message}</p>
+            <p className="my-2">{message}</p>
           </div>
-          <div className="modal-footer">
+          <div className="modal-footer py-2">
             <button
               className="btn btn-info"
               onClick={ closeModal }
@@ -50,7 +52,7 @@ const AlertModal = ({ title, message, onClose }) => {
   );
 };
 
-const RoleModal = ({ player, role, onClose }) => {
+const RoleModal = ({ player, roleData, onClose }) => {
   const [show, setShow] = useState(false);
   const [animate, setAnimate] = useState(false);
   const animationDelay = 50;
@@ -62,7 +64,7 @@ const RoleModal = ({ player, role, onClose }) => {
     } else {
       setShow(false);
     }
-  }, [player, role]);
+  }, [player, roleData]);
 
   const closeModal = (evt) => {
     if (evt.target !== evt.currentTarget) return;
@@ -77,25 +79,29 @@ const RoleModal = ({ player, role, onClose }) => {
       style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
       onClick={ closeModal }
     >
-      <div className="modal-dialog px-2 px-sm-0 modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Your Role</h5>
-          </div>
-          <div className="modal-body">
-            <p><strong>{player}</strong>, your role is:</p>
-            <p>{role?.name || "Unknown Role"}</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              className="btn btn-primary"
-              onClick={ closeModal }
-            >
-              Close
-            </button>
+      { player && roleData && (
+        <div className="modal-dialog px-2 px-sm-0 modal-dialog-centered modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title"><strong>The { roleData.name }</strong></h5>
+            </div>
+            <div className="modal-body px-0 py-1">
+              <RoleInfo
+                roleData={ roleData }
+                detailsColor="light"
+              />
+            </div>
+            <div className="modal-footer py-2">
+              <button
+                className="btn btn-primary"
+                onClick={ closeModal }
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Rules from "./rules";
 import Teams from "./teams";
-import Roles from "./roles";
+import { Roles } from "./roles";
 
 const Dropdowns = ({ players, rolesDisabled, setRolesDisabled }) => {
   return (
