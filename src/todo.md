@@ -9,4 +9,4 @@
 - [ ] Make mulligan logic
 - [X] Add `Enable All` and` `Disable All` buttons to the roles section
 - [X] Maybe consolidate modal components, and make them more generic (and put them into another file)
-- [ ] ^ Put custom functions in allRoles for things like Bounty Hunter
+- [X] ^ Put custom functions in allRoles for things like Bounty Hunter

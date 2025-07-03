@@ -14,16 +14,14 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
   const [visiblePlayer, setVisiblePlayer] = useState("");
   const [buttonsDisabled, setButtonsDisabled] = useState([]);
   const [alert, setAlert] = useState({ title: "", message: "", onClose: () => {} });
-  const [roles, setRoles] = useState(() => {
+  const [assignedRoles, setAssignedRoles] = useState(() => {
     return Object.fromEntries(players.map(player => [player, {}]))
   });
 
   const resetRoles = () => {
     setAlert({ title: "", message: "", onClose: () => {} });
-        const assignedRoles = dealRoles(players, rolesDisabled);
-        setRoles(assignedRoles);
-        setButtonsDisabled([]);
-
+    setAssignedRoles(dealRoles(players, rolesDisabled));
+    setButtonsDisabled([]);
   };
 
   const playAgain = () => {
@@ -31,7 +29,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
       title: "Game Reset",
       message: "The game has been restarted. All roles have been reassigned.",
       onClose: resetRoles
-    })
+    });
   }
 
   useEffect(() => {
@@ -39,8 +37,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
   }, [players, nav]);
 
   useEffect(() => {
-    const assignedRoles = dealRoles(players, rolesDisabled);
-    setRoles(assignedRoles);
+    setAssignedRoles(dealRoles(players, rolesDisabled));
   }, [players, rolesDisabled]);
 
   return (
@@ -95,7 +92,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
       </div>
       <RoleModal
         player={ visiblePlayer }
-        roleData={ roles[visiblePlayer] }
+        assignedRoles={ assignedRoles }
         onClose={() => setVisiblePlayer("")}
       />
       <AlertModal

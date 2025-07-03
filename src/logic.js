@@ -141,6 +141,18 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
+    customCode: {
+      func: (currentPlayer, players, assignedRoles) => {
+        // target = random player that is not the current player
+        const filteredPlayers = players.filter(player => player !== currentPlayer);
+        const target = getRandomElem(filteredPlayers, () => { return true });
+        return [
+          "Your target",
+          target
+        ];
+      },
+      reason: "Determines the Bounty Hunter's target and reminds the player to check it."
+    },
     sandbox: false
   },
   Spy: {
@@ -398,6 +410,7 @@ C. POST-PROCESSING
     7.2: Replace this role with the dependency.
   8. Repeat step 7 until checks pass or 7 is repeated 25 times (if so, restart from A).
   9. Replace role names with full objects.
+  10. Run custom code for applicable roles and store the result.
 
 */
 
@@ -460,7 +473,11 @@ function dealRoles(playersArr, rolesDisabled) {
   }
   if (!checksPassed) return alert("Something went wrong with dependency resolution, please try again.");
 
-  for (const player in playerRoles) playerRoles[player] = allRoles[playerRoles[player]];
+  for (const player in playerRoles) {
+    playerRoles[player] = allRoles[playerRoles[player]];
+    let roleObj = playerRoles[player];
+    if (roleObj.customCode) roleObj.customCode.result = roleObj.customCode.func(player, Object.keys(playerRoles), playerRoles);
+  }
   return playerRoles;
 }
 

@@ -4,7 +4,7 @@ import { FaCaretDown, FaCaretRight } from "react-icons/fa";
 
 import { allRoles, roleIsEnabled } from "../logic.js";
 
-const RoleInfo = ({ roleData, detailsColor }) => {
+const RoleInfo = ({ roleData, isModal }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const playerCount = () => {
@@ -21,8 +21,16 @@ const RoleInfo = ({ roleData, detailsColor }) => {
       <p><strong>Kills:</strong> { roleData.kills }</p>
       <p><strong>Revives:</strong> { roleData.revives }</p>
       <p><strong>Notes:</strong> { roleData.notes }</p>
+      { console.log(roleData.customCode !== undefined) }
+      { roleData.customCode && (
+        isModal ? (
+          <p><strong>{ roleData.customCode.result[0] }:</strong> { roleData.customCode.result[1] }</p>
+        ) : (
+          <p><strong>Custom Code:</strong> { roleData.customCode.reason }</p>
+        )
+      )}
 
-      <div className={`col mb-1 mt-4 rounded bg-${ detailsColor || "white" }`}>
+      <div className={`col mb-1 mt-4 rounded bg-${ isModal ? "light" : "white" }`}>
         <button
           className="btn w-100 py-3 d-flex justify-content-between align-items-center"
           type="button"

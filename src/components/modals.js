@@ -52,19 +52,21 @@ const AlertModal = ({ title, message, onClose }) => {
   );
 };
 
-const RoleModal = ({ player, roleData, onClose }) => {
+const RoleModal = ({ player, assignedRoles, onClose }) => {
   const [show, setShow] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [roleData, setRoleData] = useState(null);
   const animationDelay = 50;
 
   useEffect(() => {
     if (player) {
+      setRoleData(assignedRoles[player]);
       setShow(true);
       setTimeout(() => setAnimate(true), animationDelay);
     } else {
       setShow(false);
     }
-  }, [player, roleData]);
+  }, [player, roleData, assignedRoles]);
 
   const closeModal = (evt) => {
     if (evt.target !== evt.currentTarget) return;
@@ -88,7 +90,7 @@ const RoleModal = ({ player, roleData, onClose }) => {
             <div className="modal-body px-0 py-1">
               <RoleInfo
                 roleData={ roleData }
-                detailsColor="light"
+                isModal={ true }
               />
             </div>
             <div className="modal-footer py-2">
