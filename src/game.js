@@ -9,7 +9,7 @@ import Header from "./components/header";
 import Dropdowns from "./components/dropdowns";
 import Footer from "./components/footer";
 
-const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
+const Game = ({ players, rolesEnabled, setRolesEnabled }) => {
   const nav = useNavigate();
   const [visiblePlayer, setVisiblePlayer] = useState("");
   const [buttonsDisabled, setButtonsDisabled] = useState([]);
@@ -20,7 +20,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
 
   const resetRoles = () => {
     setAlert({ title: "", message: "", onClose: () => {} });
-    setAssignedRoles(dealRoles(players, rolesDisabled));
+    setAssignedRoles(dealRoles(players, rolesEnabled));
     setButtonsDisabled([]);
   };
 
@@ -37,8 +37,8 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
   }, [players, nav]);
 
   useEffect(() => {
-    setAssignedRoles(dealRoles(players, rolesDisabled));
-  }, [players, rolesDisabled]);
+    setAssignedRoles(dealRoles(players, rolesEnabled));
+  }, [players, rolesEnabled]);
 
   return (
     <>
@@ -88,7 +88,7 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
             Play Again
           </button>
         </div>
-        <Dropdowns players={ players } rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />
+        <Dropdowns players={ players } rolesEnabled={rolesEnabled} setRolesEnabled={setRolesEnabled} />
       </div>
       <AlertModal
         title={ alert.title }

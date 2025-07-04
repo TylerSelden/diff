@@ -448,17 +448,18 @@ function getAllRoles() {
 }
 
 function getRandomElem(arr, keep) {
+  if (arr.length === 0) return null;
   const index = rand(0, arr.length);
   const elem = arr[index];
   if (!keep || !keep(elem)) arr.splice(index, 1);
   return elem;
 }
 
-function getValidRoles(roles, playerCount, rolesDisabled) {
+function getValidRoles(roles, playerCount, rolesEnabled) {
   return roles.filter(key => {
     const role = allRoles[key];
     return (
-      roleIsEnabled(rolesDisabled, playerCount, role.name) &&
+      roleIsEnabled(rolesEnabled, playerCount, role.name) &&
       !role.required &&
       !role.isDependency &&
       role.minPlayers <= playerCount &&
@@ -467,15 +468,19 @@ function getValidRoles(roles, playerCount, rolesDisabled) {
   })
 }
 
+function getFallbackRoles(roles) {
+  return roles.filter(key => allRoles[key].isFallback);
+}
+
 function getRequiredRoles(roles) {
   return roles.filter(key => allRoles[key].required);
 }
 
-function roleIsEnabled(rolesDisabled, playerCount, role) {
+function roleIsEnabled(rolesEnabled, playerCount, role) {
   const roleData = allRoles[role];
-  if (roleData.isDependency && !roleIsEnabled(rolesDisabled, playerCount, roleData.dependencyOf)) return false;
+  if (roleData.isDependency && !roleIsEnabled(rolesEnabled, playerCount, roleData.dependencyOf)) return false;
   if (playerCount < roleData.minPlayers || playerCount > roleData.maxPlayers) return false;
-  if (rolesDisabled.includes(role)) return false;
+  if (!rolesEnabled.includes(role)) return false;
   return true;
 }
 
@@ -503,14 +508,15 @@ C. POST-PROCESSING
 
 */
 
-function dealRoles(playersArr, rolesDisabled) {
+function dealRoles(playersArr, rolesEnabled) {
   let players = [...playersArr];
   const playerCount = players.length;
 
   // A. PREPROCESSING
   const rolesArr = getAllRoles();
   let requiredRoles = getRequiredRoles(rolesArr);
-  let validRoles = getValidRoles(rolesArr, playerCount, rolesDisabled);
+  let fallbackRoles = getFallbackRoles(rolesArr);
+  let validRoles = getValidRoles(rolesArr, playerCount, rolesEnabled);
   let playerRoles = {};
 
   // B. INITIAL DEALING
@@ -524,7 +530,9 @@ function dealRoles(playersArr, rolesDisabled) {
     validRoles.map(role => [role, allRoles[role].bounces])
   );
   while (players.length > 0) {
-    const role = getRandomElem(validRoles, role => !allRoles[role].unique || bounces[role] > 0);
+    let role = getRandomElem(validRoles, role => !allRoles[role].unique || bounces[role] > 0);
+    if (!role) role = getRandomElem(fallbackRoles, role => !allRoles[role].unique || bounces[role] > 0);
+
     if (bounces[role] > 0) {
       bounces[role]--;
       continue;

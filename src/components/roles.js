@@ -65,18 +65,16 @@ const RoleInfo = ({ roleData, isModal }) => {
   )
 }
 
-const Roles = ({ players, rolesDisabled, setRolesDisabled, isSandbox }) => {
+const Roles = ({ players, rolesEnabled, setRolesEnabled, isSandbox }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [visibleRole, setVisibleRole] = useState("");
 
-  const switchIsDisabled = (role) => {
+  const switchIsDisabled = (role, test) => {
     const roleData = allRoles[role];
     if (roleData.required || roleData.isDependency) return true;
     if (players.length < roleData.minPlayers || players.length > roleData.maxPlayers) return true;
-
-    const oneFallbackLeft = Object.entries(allRoles).filter(([name, role]) => role.isFallback && !rolesDisabled.includes(name)).length === 1;
-    if (!rolesDisabled.includes(role) && roleData.isFallback && oneFallbackLeft) return true;
-
+    
+  if (role === "Townsperson") console.log(roleData.name, roleData.sandbox, roleData.required, roleData.isDependency, players.length, roleData.minPlayers, roleData.maxPlayers);
     return false;
   }
 
@@ -121,14 +119,14 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled, isSandbox }) => {
                     <input
                       className="form-check-input mt-0"
                       type="checkbox"
-                      checked={roleIsEnabled(rolesDisabled, players.length, role)}
+                      checked={roleIsEnabled(rolesEnabled, players.length, role)}
                       disabled={switchIsDisabled(role)}
                       onClick={(evt) => evt.stopPropagation()}
                       onChange={(evt) => {
-                        if (rolesDisabled.includes(role)) {
-                          setRolesDisabled(rolesDisabled.filter(r => r !== role));
+                        if (rolesEnabled.includes(role)) {
+                          setRolesEnabled(rolesEnabled.filter(r => r !== role));
                         } else {
-                          setRolesDisabled([...rolesDisabled, role]);
+                          setRolesEnabled([...rolesEnabled, role]);
                         }
                       }}
                     />
@@ -148,13 +146,13 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled, isSandbox }) => {
             <div className="d-flex justify-content-end">
               <button
                 className="btn btn-secondary text-white me-2"
-                onClick={() => setRolesDisabled(Object.keys(allRoles).filter(role => !switchIsDisabled(role) && (allRoles[role].sandbox === isSandbox || rolesDisabled.includes(role))))}
+                onClick={() => setRolesEnabled(rolesEnabled.filter(role => switchIsDisabled(role) || allRoles[role].sandbox !== isSandbox))}
               >
                 Disable All
               </button>
               <button
                 className="btn btn-info"
-                onClick={() => setRolesDisabled(rolesDisabled.filter(role => allRoles[role].sandbox !== isSandbox))}
+                onClick={() => setRolesEnabled(Object.keys(allRoles).filter(role => (!switchIsDisabled(role) && allRoles[role].sandbox === isSandbox) || rolesEnabled.includes(role)))}
               >
                 Enable All
               </button>

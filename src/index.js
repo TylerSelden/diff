@@ -13,23 +13,23 @@ export default function App() {
     const savedPlayers = localStorage.getItem("diffPlayers");
     return savedPlayers ? JSON.parse(savedPlayers) : [];
   });
-  const [rolesDisabled, setRolesDisabled] = useState(() => {
-    const savedRolesDisabled = localStorage.getItem("diffRolesDisabled");
-    return savedRolesDisabled ? JSON.parse(savedRolesDisabled) : Object.entries(allRoles).filter(([key, val]) => val.sandbox).map(([key, val]) => key);
+  const [rolesEnabled, setRolesEnabled] = useState(() => {
+    const savedRolesEnabled = localStorage.getItem("diffRolesEnabled");
+    return savedRolesEnabled ? JSON.parse(savedRolesEnabled) : Object.entries(allRoles).filter(([key, val]) => !val.sandbox).map(([key, val]) => key);
   });
 
   useEffect(() => {
     localStorage.setItem("diffPlayers", JSON.stringify(players));
   }, [players]);
   useEffect(() => {
-    localStorage.setItem("diffRolesDisabled", JSON.stringify(rolesDisabled));
-  }, [rolesDisabled]);
+    localStorage.setItem("diffRolesEnabled", JSON.stringify(rolesEnabled));
+  }, [rolesEnabled]);
 
   return (
     <BrowserRouter basename="/diff">
       <Routes>
-        <Route path="/" element={<Menu players={players} setPlayers={setPlayers} rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />} />
-        <Route path="/game" element={<Game players={players} rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />} />
+        <Route path="/" element={<Menu players={players} setPlayers={setPlayers} rolesEnabled={rolesEnabled} setRolesEnabled={setRolesEnabled} />} />
+        <Route path="/game" element={<Game players={players} rolesEnabled={rolesEnabled} setRolesEnabled={setRolesEnabled} />} />
       </Routes>
     </BrowserRouter>
   );

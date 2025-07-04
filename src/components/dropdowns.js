@@ -6,14 +6,14 @@ import Teams from "./teams";
 import { Roles } from "./roles";
 import { allRoles } from "../logic.js";
 
-const Dropdowns = ({ players, rolesDisabled, setRolesDisabled }) => {
+const Dropdowns = ({ players, rolesEnabled, setRolesEnabled }) => {
   return (
     <div className="mt-4">
       <Rules />
       <Teams />
-      <Roles players={ players } rolesDisabled={ rolesDisabled } setRolesDisabled={ setRolesDisabled } isSandbox={ false } />
+      <Roles players={ players } rolesEnabled={ rolesEnabled } setRolesEnabled={ setRolesEnabled } isSandbox={ false } />
       { Object.entries(allRoles).filter(([key, val]) => val.sandbox).length > 0 && (
-        <Roles players={ players } rolesDisabled={ rolesDisabled } setRolesDisabled={ setRolesDisabled } isSandbox={ true } />
+        <Roles players={ players } rolesEnabled={ rolesEnabled } setRolesEnabled={ setRolesEnabled } isSandbox={ true } />
       )}
     </div>
   );
