@@ -6,6 +6,7 @@ import "./style.scss";
 
 import Menu from "./menu";
 import Game from "./game";
+import { allRoles } from "./logic.js";
 
 export default function App() {
   const [players, setPlayers] = useState(() => {
@@ -14,7 +15,7 @@ export default function App() {
   });
   const [rolesDisabled, setRolesDisabled] = useState(() => {
     const savedRolesDisabled = localStorage.getItem("diffRolesDisabled");
-    return savedRolesDisabled ? JSON.parse(savedRolesDisabled) : [];
+    return savedRolesDisabled ? JSON.parse(savedRolesDisabled) : Object.entries(allRoles).filter(([key, val]) => val.sandbox).map(([key, val]) => key);
   });
 
   useEffect(() => {

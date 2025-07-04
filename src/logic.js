@@ -15,7 +15,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
-    enabled: true
+    sandbox: false
   },
   Townsperson: {
     name: "Townsperson",
@@ -109,7 +109,7 @@ const allRoles = {
   },
   Jester: {
     name: "Jester",
-    team: "Jester",
+    team: "Anarchists",
     objective: "Get killed by another player",
     kills: 0,
     revives: 0,
@@ -316,8 +316,96 @@ const allRoles = {
     dependencyOf: "",
     bounces: 0,
     sandbox: false
+  },
+
+
+
+  Baker: {
+    name: "Baker",
+    team: "Anarchists",
+    objective: "TBD",
+    kills: "1*",
+    revives: "1*",
+    notes: "*The baker starts out with a cake, which they can give to another player at any time. If the player accepts, the baker must immediately tell them whether the cake was poisoned (killing the player instantly) or not (giving the player one self-revive). This can only be done once per game, and the Baker cannot use the cake on themself.",
+    required: false,
+    isFallback: false,
+    minPlayers: 0,
+    maxPlayers: Infinity,
+    unique: true,
+    dependencies: [],
+    isDependency: false,
+    dependencyOf: "",
+    bounces: 0,
+    sandbox: true,
+    draft: true
+  },
+  Terrorist: {
+    name: "Terrorist",
+    team: "Anarchists",
+    objective: "TBD",
+    kills: 1,
+    revives: 0,
+    notes: "The Terrorist may at any time choose to detonate a bomb, killing everybody within sight. [notes for when objective is decided]",
+    required: false,
+    isFallback: false,
+    minPlayers: 4,
+    maxPlayers: Infinity,
+    unique: true,
+    dependencies: [],
+    isDependency: false,
+    dependencyOf: "",
+    bounces: 0,
+    sandbox: true,
+    draft: true
+  },
+  Informant: {
+    name: "Informant",
+    team: "TBD",
+    objective: "TBD",
+    kills: "TBD",
+    revives: 0,
+    notes: "The Informant is given the role of one other player at the beginning of the game. [notes for when objective is decided]",
+    required: false,
+    isFallback: false,
+    minPlayers: 4,
+    maxPlayers: Infinity,
+    unique: true,
+    dependencies: [],
+    isDependency: false,
+    dependencyOf: "",
+    bounces: 0,
+    sandbox: true,
+    draft: true
+  },
+  "Plague Doctor": {
+    name: "Plague Doctor",
+    team: "Anarchists",
+    objective: "TBD",
+    kills: 1,
+    revives: 0,
+    notes: "If the Plague Doctor kills another player, and that player is revived, they must remain dead, and the player who revived them must also die, thus spreading the plague. [notes for when objective is decided]",
+    required: false,
+    isFallback: false,
+    minPlayers: 4,
+    maxPlayers: Infinity,
+    unique: true,
+    dependencies: [],
+    isDependency: false,
+    dependencyOf: "",
+    bounces: 0,
+    sandbox: true,
+    draft: true
   }
 };
+
+/*
+
+Ideas:
+  Terrorist: ONe kill, they can choose to detonate a bomb at any time, killing everybody within sight (prevents talking circles). On Anarchist team
+  Informant: Knows one other player's role (except president and maybe outlaw)
+  Plague Doctor: One kill; if they kill someone, when that person gets revived, the plague spreads and then their savior dies (as well as them staying dead). Anarchist team.
+
+*/
 
 const teams = {
   Outlaw: {
@@ -328,8 +416,8 @@ const teams = {
     objective: "Ensure the Outlaw doesn't win",
     roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Townspeople")
   },
-  Jester: {
-    objective: "Get killed by another player",
+  Anarchists: {
+    objective: "All anarchists present must achieve their objective to win, otherwise they collectively lose",
     roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Jester")
   },
   "Bounty Hunter": {

@@ -2,11 +2,13 @@
 
 ---
 
-- [ ] Add sandbox role section
+- [ ] Change `rolesDisabled` to `rolesEnabled`
+- [X] Add sandbox role section
 - [X] Save the enabled/disabled roles... somehow...
 - [X] Larger switches
 - [X] Finish the `/game` UI
-- [ ] Make mulligan logic
+- [ ] Maybe add an alert at the beginning of the game to tell players that a president is present
+- [ ] Maybe mass enabling roles by team?
 - [X] Add `Enable All` and` `Disable All` buttons to the roles section
 - [X] Maybe consolidate modal components, and make them more generic (and put them into another file)
 - [X] ^ Put custom functions in allRoles for things like Bounty Hunter

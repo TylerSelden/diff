@@ -21,7 +21,6 @@ const RoleInfo = ({ roleData, isModal }) => {
       <p><strong>Kills:</strong> { roleData.kills }</p>
       <p><strong>Revives:</strong> { roleData.revives }</p>
       <p><strong>Notes:</strong> { roleData.notes }</p>
-      { console.log(roleData.customCode !== undefined) }
       { roleData.customCode && (
         isModal ? (
           <p><strong>{ roleData.customCode.result[0] }:</strong> { roleData.customCode.result[1] }</p>
@@ -66,7 +65,7 @@ const RoleInfo = ({ roleData, isModal }) => {
   )
 }
 
-const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
+const Roles = ({ players, rolesDisabled, setRolesDisabled, isSandbox }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [visibleRole, setVisibleRole] = useState("");
 
@@ -88,13 +87,25 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
         type="button"
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
-        <span className="fw-bold">Roles</span>
+        <span className="fw-bold">{ isSandbox ? "Sandbox" : "Roles"}</span>
         <span className="d-flex">{dropdownOpen ? (<FaCaretDown />) : (<FaCaretRight />)}</span>
       </button>
 
       {dropdownOpen && (
         <div className="p-3 pt-0">
-          {Object.entries(allRoles).map(([role, roleData]) => (
+          { isSandbox && (
+            <div className="mb-4">
+              <div className="alert alert-danger">
+                <strong>Note:</strong> The roles shown here are Sandbox roles. They are probably very broken and not intended for normal gameplay. Use at your own risk!
+              </div>
+              { Object.entries(allRoles).filter(([key, val]) => val.draft).length > 0 && (
+                <div className="alert alert-warning mt-0">
+                  <strong>Warning:</strong> Some roles are only rough drafts, meaning that they are incomplete. These roles are marked with an asterisk.
+                </div>
+              )}
+            </div>
+          )}
+          {Object.entries(allRoles).filter(([key, val]) => val.sandbox === isSandbox).map(([role, roleData]) => (
             <div className="col mt-2 mb-1 rounded bg-light" key={role}>
               <button
                 className="btn w-100 py-3 d-flex justify-content-between align-items-center"
@@ -102,8 +113,8 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
                 onClick={() => setVisibleRole(visibleRole === role ? "" : role)}
               >
                 <span className="fw-bold">
-                  {roleData.required && <span className="text-danger">*</span>}
-                  {roleData.name}
+                  { (roleData.required || roleData.draft) && <span className="text-danger">*</span> }
+                  { roleData.name }
                 </span>
                 <div className="d-flex align-items-center">
                   <div className="form-check form-switch midswitch d-flex align-items-center">
@@ -133,17 +144,17 @@ const Roles = ({ players, rolesDisabled, setRolesDisabled }) => {
           ))}
 
           <div className="d-flex flex-wrap gap-3 justify-content-between align-items-center mt-4 mb-2">
-            <p className="text-primary m-0">* indicates a required role</p>
+            <p className="text-primary m-0">* indicates a{ isSandbox ? "n incomplete draft" : " required" } role</p>
             <div className="d-flex justify-content-end">
               <button
                 className="btn btn-secondary text-white me-2"
-                onClick={() => setRolesDisabled(Object.keys(allRoles).filter(role => !switchIsDisabled(role)))}
+                onClick={() => setRolesDisabled(Object.keys(allRoles).filter(role => !switchIsDisabled(role) && (allRoles[role].sandbox === isSandbox || rolesDisabled.includes(role))))}
               >
                 Disable All
               </button>
               <button
                 className="btn btn-info"
-                onClick={() => setRolesDisabled([])}
+                onClick={() => setRolesDisabled(rolesDisabled.filter(role => allRoles[role].sandbox !== isSandbox))}
               >
                 Enable All
               </button>
