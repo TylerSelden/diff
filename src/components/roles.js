@@ -142,7 +142,7 @@ const Roles = ({ players, rolesEnabled, setRolesEnabled, isSandbox }) => {
           ))}
 
           <div className="d-flex flex-wrap gap-3 justify-content-between align-items-center mt-4 mb-2">
-            <p className="text-primary m-0">* indicates a{ isSandbox ? "n incomplete draft" : " required" } role</p>
+            <p className="text-primary m-0">* indicates a {isSandbox ? "draft" : " required" } role</p>
             <div className="d-flex justify-content-end">
               <button
                 className="btn btn-secondary text-white me-2"

@@ -175,7 +175,7 @@ const allRoles = {
   },
   President: {
     name: "President",
-    team: "President",
+    team: "Government",
     objective: "Be alive by the end of the game",
     kills: 0,
     revives: 0,
@@ -194,7 +194,7 @@ const allRoles = {
   },
   Guard: {
     name: "Guard",
-    team: "President",
+    team: "Government",
     objective: "Ensure the President is alive by the end of the game",
     kills: "Infinite",
     revives: 0,
@@ -429,7 +429,7 @@ const teams = {
     objective: "Determine the role of every player",
     roles: Object.keys(allRoles).filter(role => allRoles[role].team === "Spy")
   },
-  President: {
+  Government: {
     objective: "Ensure the President is alive by the end of the game",
     roles: Object.keys(allRoles).filter(role => allRoles[role].team === "President")
   },
