@@ -20,14 +20,17 @@ const AlertModal = ({ title, message, onClose }) => {
   const closeModal = (evt) => {
     if (evt.target !== evt.currentTarget) return;
     setAnimate(false);
-    setTimeout(() => onClose(), 101);
+    setTimeout(() => {
+      onClose();
+      setShow(false);
+    }, 101);
   }
 
   return (
     <div
       className={`modal fade ${show ? "d-block" : ""} ${animate ? "show" : ""}`}
       tabIndex="-1"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", zIndex: 1050 }}
       onClick={ closeModal }
     >
       <div className="modal-dialog px-2 px-sm-0 modal-dialog-centered">
@@ -52,7 +55,7 @@ const AlertModal = ({ title, message, onClose }) => {
   );
 };
 
-const RoleModal = ({ player, assignedRoles, onClose }) => {
+const RoleModal = ({ player, assignedRoles, onClose, setAlert }) => {
   const [show, setShow] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [roleData, setRoleData] = useState(null);
@@ -68,6 +71,18 @@ const RoleModal = ({ player, assignedRoles, onClose }) => {
     }
   }, [player, roleData, assignedRoles]);
 
+  useEffect(() => {
+    if (roleData && roleData.openAlert) {
+      setTimeout(() => {
+        setAlert({
+          title: roleData.openAlert[0],
+          message: roleData.openAlert[1],
+          onClose: () => {} }
+        );
+      }, animationDelay + 100);
+    }
+  }, [roleData, setAlert])
+
   const closeModal = (evt) => {
     if (evt.target !== evt.currentTarget) return;
     setAnimate(false);
@@ -78,7 +93,7 @@ const RoleModal = ({ player, assignedRoles, onClose }) => {
     <div
       className={`modal fade ${show ? "d-block" : ""} ${animate ? "show" : ""}`}
       tabIndex="-1"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", zIndex: 1000 }}
       onClick={ closeModal }
     >
       { player && roleData && (

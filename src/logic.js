@@ -189,6 +189,7 @@ const allRoles = {
     isDependency: false,
     dependencyOf: "",
     bounces: 0,
+    openAlert: ["Reminder", "Make sure to let everybody know that you're the President!"],
     sandbox: false
   },
   Guard: {

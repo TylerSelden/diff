@@ -7,7 +7,7 @@
 - [X] Save the enabled/disabled roles... somehow...
 - [X] Larger switches
 - [X] Finish the `/game` UI
-- [ ] Maybe add an alert at the beginning of the game to tell players that a president is present
+- [X] Add an alert at the beginning of the game to tell players that a president is present
 - [ ] Maybe mass enabling roles by team?
 - [X] Add `Enable All` and` `Disable All` buttons to the roles section
 - [X] Maybe consolidate modal components, and make them more generic (and put them into another file)

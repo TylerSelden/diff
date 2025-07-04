@@ -90,15 +90,16 @@ const Game = ({ players, rolesDisabled, setRolesDisabled }) => {
         </div>
         <Dropdowns players={ players } rolesDisabled={rolesDisabled} setRolesDisabled={setRolesDisabled} />
       </div>
-      <RoleModal
-        player={ visiblePlayer }
-        assignedRoles={ assignedRoles }
-        onClose={() => setVisiblePlayer("")}
-      />
       <AlertModal
         title={ alert.title }
         message={ alert.message }
         onClose={ alert.onClose }
+      />
+      <RoleModal
+        player={ visiblePlayer }
+        assignedRoles={ assignedRoles }
+        onClose={() => setVisiblePlayer("")}
+        setAlert={ setAlert }
       />
       <Footer />
     </>
