@@ -2,7 +2,7 @@
 
 ---
 
-- [ ] Change `rolesDisabled` to `rolesEnabled`
+- [X] Change `rolesDisabled` to `rolesEnabled`
 - [X] Add sandbox role section
 - [X] Save the enabled/disabled roles... somehow...
 - [X] Larger switches
